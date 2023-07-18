@@ -60,16 +60,19 @@
 jmp_buf s_jumpBuffer;
 
 void _plat__RunCommand(uint32_t requestSize, unsigned char *request,
-                       uint32_t *responseSize, unsigned char **response) {
+                       uint32_t *responseSize, unsigned char **response)
+{
   setjmp(s_jumpBuffer);
   ExecuteCommand(requestSize, request, responseSize, response);
 }
 
 _Noreturn void _plat__Fail(void) { longjmp(&s_jumpBuffer[0], 1); }
 
-void _plat__Reset(bool forceManufacture) {
+void _plat__Reset(bool forceManufacture)
+{
   // We ignore errors, as we don't care if the TPM has been Manufactured before.
-  if (forceManufacture) {
+  if (forceManufacture)
+  {
     TPM_TearDown();
   }
   TPM_Manufacture(0);
